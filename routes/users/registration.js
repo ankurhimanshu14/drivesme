@@ -1,9 +1,11 @@
+const fs = require('fs');
+const path = require('path');
+const staticFilesPath = path.join(__dirname, '../static/');
 const { USER_FIELDS, USER_MODEL } = require('../../models/users');
 
 module.exports = {
     fetchData: async (req, res, next) => {
         req._newUser = await new USER_MODEL({
-            [USER_FIELDS.PHOTO]: req.body.photo,
             [USER_FIELDS.FIRST_NAME]: req.body.firstName,
             [USER_FIELDS.MIDDLE_NAME]: req.body.middleName,
             [USER_FIELDS.LAST_NAME]: req.body.lastName,
@@ -14,7 +16,22 @@ module.exports = {
             [USER_FIELDS.PASSWORD]: req.body.password
         });
 
-        console.log(req._newUser);
+        next();
+    },
+
+    uploadImage: (req, res, next) => {
+        const photoPath = req.body.photo;
+
+        const newFilePath = staticFilesPath + `${req._newUser._id}.jpg`;
+
+        try {
+            fs.copyFileSync(photoPath, newFilePath)
+            console.log("Image Uploaded")
+        }
+        catch(err) {
+            throw err
+        }
+
         next();
     },
 

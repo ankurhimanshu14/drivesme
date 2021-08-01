@@ -4,7 +4,6 @@ const bcrypt = require('bcrypt');
 const userVal = require('../validators/usersValidator');
 
 const FIELDS = {
-    PHOTO: 'photo',
     FIRST_NAME: 'firstName',
     MIDDLE_NAME: 'middleName',
     LAST_NAME: 'lastName',
@@ -19,9 +18,6 @@ const FIELDS = {
 };
 
 const SCHEMA = {
-    [FIELDS.PHOTO]: {
-        type: String
-    },
     [FIELDS.FIRST_NAME]: {
         type: String,
         required: true,
